@@ -1,6 +1,7 @@
 using Assets.Source.Ant;
 using UnityEngine;
 using Zenject;
+using Assets.Source.Ant;
 
 public class AntInstaller : MonoInstaller
 {

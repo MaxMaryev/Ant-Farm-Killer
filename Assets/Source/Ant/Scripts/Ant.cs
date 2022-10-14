@@ -18,13 +18,17 @@ namespace Assets.Source.Ant
         private Vector3 _velocity;
         private Vector3 _desiredDirection;
         private Transform _targetFood;
-        private bool _hasFood;
+
+        public bool HasFood { get; private set; }
+
+        public Vector3 Position => _position;
+        public Vector3 Direction => _desiredDirection;
 
         private void Update()
         {
             Wander();
 
-            if (_hasFood == false)
+            if (HasFood == false)
                 HandleFood();
         }
 
@@ -57,7 +61,7 @@ namespace Assets.Source.Ant
                     _targetFood.position = _headTransform.position;
                     _targetFood.SetParent(_headTransform);
                     _targetFood = null;
-                    _hasFood = true;
+                    HasFood = true;
                 }
             }
         }
@@ -76,11 +80,6 @@ namespace Assets.Source.Ant
 
             float angle = Mathf.Atan2(_velocity.x, _velocity.z) * Mathf.Rad2Deg;
             transform.SetPositionAndRotation(_position, Quaternion.Euler(0, angle, 0));
-        }
-
-        public void Die()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
