@@ -1,19 +1,11 @@
-using Assets.Source.Ant;
 using System.Collections;
 using UnityEngine;
-using Zenject;
 
 public class AntCreator : MonoBehaviour
 {
     [SerializeField] private int _count;
-
-    private Ant _ant;
-
-    [Inject]
-    private void Construct(Ant ant)
-    {
-        _ant = ant;
-    }
+    [SerializeField] private Ant _antPrefab;
+    [SerializeField] private Transform _nest;
 
     private void Start()
     {
@@ -26,7 +18,7 @@ public class AntCreator : MonoBehaviour
 
         for (int i = 0; i < _count; i++)
         {
-            Instantiate(_ant);
+            Instantiate(_antPrefab);
             yield return wait;
         }
     }
