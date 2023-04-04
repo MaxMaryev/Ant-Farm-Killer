@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-internal abstract class PheromoneMap
+public abstract class PheromoneMap
 {
-    protected List<Pheromone> Pheromones = new List<Pheromone>();
+    public PheromoneMap() { }
 
-    internal PheromoneMap() { }
-
-    internal abstract IReadOnlyCollection<Pheromone> GetDetectedPheromonesCount(Vector3 position, Quaternion sensorDirection, Vector3 areaHalfExtents);
+    public abstract int GetDetectedPheromonesCount(Vector3 position, Quaternion sensorDirection, Vector3 areaHalfExtents);
 }

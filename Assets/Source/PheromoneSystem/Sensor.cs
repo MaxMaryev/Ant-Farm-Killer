@@ -1,19 +1,25 @@
 ﻿using UnityEngine;
 
-internal class Sensor
+public class Sensor
 {
-    internal Sensor(Vector3 halfExtents, Vector3 position)
+    private float _value;
+    private Vector3 _halfExtents;
+    private Vector3 _position;
+
+    public Sensor(Vector3 halfExtents, Vector3 position)
     {
-        HalfExtents = halfExtents;
-        Position = position;
+        _halfExtents = halfExtents;
+        _position = position;
     }
 
-    public Vector3 HalfExtents { get; internal set; }
-    public float Value { get; internal set; }
-    public Vector3 Position { get; internal set; }
+    public float Value => _value;
 
-    internal void UpdatePosition(Vector3 position, Vector3 direction)
+    public void Update(Vector3 position, Vector3 direction, bool isSearchingFood)
     {
-        Position = position + direction;
+        _position = position + direction;
+        _value = 0;
+
+        PheromoneMap map = (isSearchingFood) ? new FoodMarkers() : new HomeMarkers();
+        _value = map.GetDetectedPheromonesCount(_position, Quaternion.Euler(direction), _halfExtents);
     }
 }

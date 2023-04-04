@@ -15,7 +15,7 @@ public class Ant : MonoBehaviour
     private Vector3 _velocity;
     private Vector3 _desiredDirection;
     private Transform _targetFood;
-    private AntPheromoneSystem _pheromoneSystem;
+    private PheromoneSensors _pheromoneSystem;
 
     public bool IsSearchingFood { get; private set; } = true;
 
@@ -23,8 +23,7 @@ public class Ant : MonoBehaviour
 
     private void Awake()
     {
-        _pheromoneSystem = new AntPheromoneSystem(this);
-        StartCoroutine(_pheromoneSystem.LeavePheromonesTrail());
+        _pheromoneSystem = new PheromoneSensors(this);
     }
 
     private void Update()
