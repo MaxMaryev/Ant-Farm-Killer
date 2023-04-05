@@ -15,7 +15,7 @@ public class Ant : MonoBehaviour
     private Vector3 _velocity;
     private Vector3 _desiredDirection;
     private Transform _targetFood;
-    private PheromoneSensors _pheromoneSystem;
+    private PheromoneSensors _pheromoneSensors;
 
     public bool IsSearchingFood { get; private set; } = true;
 
@@ -23,12 +23,12 @@ public class Ant : MonoBehaviour
 
     private void Awake()
     {
-        _pheromoneSystem = new PheromoneSensors(this);
+        _pheromoneSensors = new PheromoneSensors(this);
     }
 
     private void Update()
     {
-        _pheromoneSystem.UpdateSensors();
+        _pheromoneSensors.UpdateSensors();
         Move();
 
         if (IsSearchingFood)
@@ -73,7 +73,7 @@ public class Ant : MonoBehaviour
     {
         Vector3 randomInsideUnitCircle = Random.insideUnitCircle;
         Vector3 randomDirection = new Vector3(randomInsideUnitCircle.x, 0, randomInsideUnitCircle.y);
-        _desiredDirection = (_desiredDirection + randomDirection * _wanderStrenght + _pheromoneSystem.GetDesiredDirection()).normalized;
+        _desiredDirection = (_desiredDirection + randomDirection * _wanderStrenght + _pheromoneSensors.GetDesiredDirection()).normalized;
         Vector3 desiredVelocity = _desiredDirection * _maxSpeed;
         Vector3 desiredSteeringForce = (desiredVelocity - _velocity) * _steerStrenght;
         Vector3 acceleration = Vector3.ClampMagnitude(desiredSteeringForce, _steerStrenght) / 1;

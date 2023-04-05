@@ -11,16 +11,16 @@ public class PheromoneSensors
     public PheromoneSensors(Ant ant)
     {
         _ant = ant;
-        _leftSensor = new Sensor(Vector3.one, ant.transform.forward + Vector3.left);
-        _centerSensor = new Sensor(Vector3.one, ant.transform.forward);
-        _rightSensor = new Sensor(Vector3.one, ant.transform.forward + Vector3.left);
+        _leftSensor = new Sensor(Vector3.one, ant.transform.forward + Vector3.left, _ant.HeadTransfrom);
+        _centerSensor = new Sensor(Vector3.one, ant.transform.forward, _ant.HeadTransfrom);
+        _rightSensor = new Sensor(Vector3.one, ant.transform.forward + Vector3.left, _ant.HeadTransfrom);
     }
 
     public void UpdateSensors()
     {
-        _leftSensor.Update(_ant.HeadTransfrom.position, _ant.HeadTransfrom.forward, _ant.IsSearchingFood);
-        _centerSensor.Update(_ant.HeadTransfrom.position, _ant.HeadTransfrom.forward, _ant.IsSearchingFood);
-        _rightSensor.Update(_ant.HeadTransfrom.position, _ant.HeadTransfrom.forward, _ant.IsSearchingFood);
+        _leftSensor.Update();
+        _centerSensor.Update();
+        _rightSensor.Update();
     }
 
     public Vector3 GetDesiredDirection()
@@ -31,7 +31,7 @@ public class PheromoneSensors
             return Vector3.left;
         else if (_rightSensor.Value > _leftSensor.Value)
             return Vector3.right;
-
+        
         return Vector3.zero;
     }
 }
