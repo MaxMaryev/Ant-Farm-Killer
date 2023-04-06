@@ -9,7 +9,6 @@ public class Ant : MonoBehaviour
     [SerializeField] private float _viewRadius;
     [SerializeField] private float _viewAngle;
     [SerializeField] private Transform _headTransform;
-    [SerializeField] private Pheromone _pheromone;
 
     private Vector3 _position;
     private Vector3 _velocity;
@@ -20,6 +19,16 @@ public class Ant : MonoBehaviour
     public bool IsSearchingFood { get; private set; } = true;
 
     public Transform HeadTransfrom => _headTransform;
+
+    private Vector3 dir;
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(transform.position + transform.forward * 0.6f - transform.right * 0.5f, Vector3.one * 0.3f);
+        Gizmos.DrawCube(transform.position + transform.forward * 0.8f, Vector3.one * 0.3f);
+        Gizmos.DrawCube(transform.position + transform.forward * 0.6f + transform.right * 0.5f, Vector3.one * 0.3f);
+        Gizmos.DrawRay(transform.position, dir * 10);
+    }
 
     private void Awake()
     {
@@ -65,7 +74,10 @@ public class Ant : MonoBehaviour
                 _targetFood.SetParent(_headTransform);
                 _targetFood = null;
                 IsSearchingFood = false;
+
+                _desiredDirection = new Vector3(_desiredDirection.x, _desiredDirection.y, -_desiredDirection.z);
             }
+
         }
     }
 
@@ -73,10 +85,11 @@ public class Ant : MonoBehaviour
     {
         Vector3 randomInsideUnitCircle = Random.insideUnitCircle;
         Vector3 randomDirection = new Vector3(randomInsideUnitCircle.x, 0, randomInsideUnitCircle.y);
+        dir = _pheromoneSensors.GetDesiredDirection();
         _desiredDirection = (_desiredDirection + randomDirection * _wanderStrenght + _pheromoneSensors.GetDesiredDirection()).normalized;
         Vector3 desiredVelocity = _desiredDirection * _maxSpeed;
         Vector3 desiredSteeringForce = (desiredVelocity - _velocity) * _steerStrenght;
-        Vector3 acceleration = Vector3.ClampMagnitude(desiredSteeringForce, _steerStrenght) / 1;
+        Vector3 acceleration = Vector3.ClampMagnitude(desiredSteeringForce, _steerStrenght) / 1; //корень в ClampMagnitude
 
         _velocity = Vector3.ClampMagnitude(_velocity + acceleration * Time.deltaTime, _maxSpeed);
         _position += _velocity * Time.deltaTime;

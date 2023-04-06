@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PheromoneGenerator : MonoBehaviour
@@ -7,7 +6,6 @@ public class PheromoneGenerator : MonoBehaviour
     [SerializeField] private Pheromone _wanderPheromone;
     [SerializeField] private Pheromone _foodPheromone;
     [SerializeField] private AntCreator _antCreator;
-
 
     private void Start()
     {
@@ -18,7 +16,7 @@ public class PheromoneGenerator : MonoBehaviour
     {
         yield return new WaitUntil(() => _antCreator.Ants.Count > 0);
 
-        WaitForSeconds waitForSeconds = new WaitForSeconds(0.2f);
+        WaitForSeconds waitForSeconds = new WaitForSeconds(0.5f);
 
         while (true)
         {
