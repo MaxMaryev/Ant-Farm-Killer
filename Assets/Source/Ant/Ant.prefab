@@ -4943,10 +4943,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxSpeed: 2
   _steerStrenght: 2
-  _wanderStrenght: 0.2
-  _viewRadius: 2
-  _viewAngle: 120
-  _headTransform: {fileID: 7581080308745287770}
+  _wanderStrenght: 0.3
+  _jawsTransform: {fileID: 346237589090722615}
 --- !u!111 &8832331769820361155
 Animation:
   m_ObjectHideFlags: 0

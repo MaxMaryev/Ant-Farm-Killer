@@ -2,13 +2,18 @@
 
 public class Pheromone : MonoBehaviour
 {
-    [SerializeField] private float _lifeTime;
+    [SerializeField] private int _lifeTime;
 
-    private void Update()
+    private void Start()
     {
-        _lifeTime -= Time.deltaTime;
+        InvokeRepeating(nameof(ReduceLifetime), _lifeTime, 1);
+    }
 
-        if(_lifeTime <= 0)
+    private void ReduceLifetime()
+    {
+        _lifeTime -= 1;
+
+        if (_lifeTime <= 0)
             Destroy(gameObject);
     }
 }

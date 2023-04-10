@@ -16,13 +16,13 @@ public class PheromoneGenerator : MonoBehaviour
     {
         yield return new WaitUntil(() => _antCreator.Ants.Count > 0);
 
-        WaitForSeconds waitForSeconds = new WaitForSeconds(0.5f);
+        WaitForSeconds waitForSeconds = new WaitForSeconds(0.1f);
 
         while (true)
         {
             for (int i = 0; i < _antCreator.Ants.Count; i++)
             {
-                if (_antCreator.Ants[i].IsSearchingFood)
+                if (_antCreator.Ants[i].IsFoodDetecting)
                     Instantiate(_wanderPheromone, _antCreator.Ants[i].transform.position, Quaternion.identity);
                 else
                     Instantiate(_foodPheromone, _antCreator.Ants[i].transform.position, Quaternion.identity);

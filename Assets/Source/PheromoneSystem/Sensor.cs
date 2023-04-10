@@ -1,47 +1,58 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Sensor
 {
     private float _value;
-    private Transform _antTransform;
+    private ISensorable _sensorable;
     private Vector3 _position;
     private Vector3 _offset;
     private Vector3 _halfExtents;
 
-    public Sensor(Vector3 halfExtents, Vector3 offset, Transform antTransform)
+    public Sensor(Vector3 halfExtents, Vector3 offset, ISensorable sensorable)
     {
         _halfExtents = halfExtents;
         _offset = offset;
-        _antTransform = antTransform;
+        _sensorable = sensorable;
     }
 
     public float Value => _value;
 
     public void Update()
     {
-        _value = 0;
-        _position = _antTransform.TransformPoint(_offset);
+        _position = _sensorable.RootTransform.TransformPoint(_offset);
 
         if (TryDetectCollision(Layers.Border))
         {
-            _value = int.MinValue;
+            _sensorable.OnBorderDetected();
+        }
+        else if (_sensorable.IsFoodDetecting && TryDetectCollision(Layers.Food))
+        {
+            _sensorable.OnFoodDetected();
+            _value *= 100;
+        }
+        else if (_sensorable.IsHouseDetecting && TryDetectCollision(Layers.House))
+        {
+            _sensorable.OnHouseDetected();
+            _value *= 100;
         }
         else
         {
-            TryDetectCollision(Layers.Pheromone);
+            if (_sensorable.IsHouseDetecting)
+                TryDetectCollision(Layers.Pheromone);
         }
     }
 
-    private bool TryDetectCollision(int layer) 
+    private bool TryDetectCollision(int layer)
     {
         Collider[] detecteds =
-            Physics.OverlapBox(_position, _halfExtents, Quaternion.Euler(_antTransform.forward), 1 << layer);
+            Physics.OverlapBox(_position, _halfExtents, Quaternion.Euler(_sensorable.RootTransform.forward), 1 << layer);
 
         _value = detecteds.Length;
 
         if (_value > 0)
+        {
             return true;
+        }
         else
             return false;
     }
