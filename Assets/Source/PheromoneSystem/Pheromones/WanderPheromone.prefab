@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5517250240261493199}
   - component: {fileID: 2082513820582764592}
   - component: {fileID: 8926196237641179323}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: WanderPheromone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

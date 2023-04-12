@@ -27,7 +27,7 @@ public class PheromoneGenerator : MonoBehaviour
                 else
                     Instantiate(_foodPheromone, _antCreator.Ants[i].transform.position, Quaternion.identity);
 
-                yield return null;
+                //yield return null;
             }
 
             yield return waitForSeconds;

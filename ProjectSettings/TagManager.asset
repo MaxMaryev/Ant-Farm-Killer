@@ -18,10 +18,10 @@ TagManager:
   - Ant
   - Food
   - TakenFood
-  - Pheromone
+  - 
   - Border
-  - 
-  - 
+  - WanderMark
+  - FoodMark
   - 
   - 
   - 

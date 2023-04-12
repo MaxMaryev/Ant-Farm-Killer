@@ -21,16 +21,16 @@ public class Sensor
     {
         _position = _sensorable.RootTransform.TransformPoint(_offset);
 
-        if (TryDetectCollision(Layers.Border))
+        if (TryDetectCollision(1 << Layers.Border))
         {
             _sensorable.OnBorderDetected();
         }
-        else if (_sensorable.IsFoodDetecting && TryDetectCollision(Layers.Food))
+        else if (_sensorable.IsFoodDetecting && TryDetectCollision(1 << Layers.Food))
         {
             _sensorable.OnFoodDetected();
             _value *= 100;
         }
-        else if (_sensorable.IsHouseDetecting && TryDetectCollision(Layers.House))
+        else if (_sensorable.IsHouseDetecting && TryDetectCollision(1 << Layers.House))
         {
             _sensorable.OnHouseDetected();
             _value *= 100;
@@ -38,14 +38,16 @@ public class Sensor
         else
         {
             if (_sensorable.IsHouseDetecting)
-                TryDetectCollision(Layers.Pheromone);
+                TryDetectCollision(1 << Layers.FoodMark | 1 << Layers.WanderMark);
+            else
+                TryDetectCollision(1 << Layers.FoodMark);
         }
     }
 
-    private bool TryDetectCollision(int layer)
+    private bool TryDetectCollision(LayerMask layerMask)
     {
         Collider[] detecteds =
-            Physics.OverlapBox(_position, _halfExtents, Quaternion.Euler(_sensorable.RootTransform.forward), 1 << layer);
+            Physics.OverlapBox(_position, _halfExtents, Quaternion.Euler(_sensorable.RootTransform.forward), layerMask);
 
         _value = detecteds.Length;
 

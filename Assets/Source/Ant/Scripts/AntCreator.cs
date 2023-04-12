@@ -26,7 +26,7 @@ public class AntCreator : MonoBehaviour
         {
             Vector3 randomInsideUnitCircle = UnityEngine.Random.insideUnitCircle;
             Vector3 randomDirection = new Vector3(randomInsideUnitCircle.x, 0, randomInsideUnitCircle.y);
-            Ant ant = Instantiate(_antPrefab, _nest.transform.position, Quaternion.Euler(randomDirection));
+            Ant ant = Instantiate(_antPrefab, _nest.transform.position, Quaternion.Euler(randomDirection)/*, _nest*/);
             _ants.Add(ant);
             yield return wait;
         }

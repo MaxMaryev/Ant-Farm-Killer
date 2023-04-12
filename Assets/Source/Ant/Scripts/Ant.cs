@@ -18,15 +18,15 @@ public class Ant : MonoBehaviour, ISensorable
     public bool IsHouseDetecting { get; private set; } = false;
     public Transform RootTransform => transform;
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawCube(transform.position + transform.forward * 0.6f - transform.right * 0.5f, Vector3.one * 0.3f);
-    //    Gizmos.DrawCube(transform.position + transform.forward * 0.8f, Vector3.one * 0.3f);
-    //    Gizmos.DrawCube(transform.position + transform.forward * 0.6f + transform.right * 0.5f, Vector3.one * 0.3f);
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(transform.position + transform.forward * 0.6f - transform.right * 0.5f, Vector3.one * 0.3f);
+        Gizmos.DrawCube(transform.position + transform.forward * 0.8f, Vector3.one * 0.3f);
+        Gizmos.DrawCube(transform.position + transform.forward * 0.6f + transform.right * 0.5f, Vector3.one * 0.3f);
 
-    //    Gizmos.DrawCube(transform.position, Vector3.one * 0.1f);
-    //}
+        Gizmos.DrawCube(transform.position, Vector3.one * 0.1f);
+    }
 
     private void Awake()
     {

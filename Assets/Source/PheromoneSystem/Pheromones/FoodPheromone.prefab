@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5517250240261493199}
   - component: {fileID: 2082513820582764592}
   - component: {fileID: -4204336700551215771}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: FoodPheromone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
