@@ -52,7 +52,7 @@ public class Ant : MonoBehaviour, ISensorable
         _desiredDirection = (_desiredDirection + randomDirection * _wanderStrenght + _pheromoneSensors.GetDesiredDirection()).normalized;
         Vector3 desiredVelocity = _desiredDirection * _maxSpeed;
         Vector3 desiredSteeringForce = (desiredVelocity - _velocity) * _steerStrenght;
-        Vector3 acceleration = Vector3.ClampMagnitude(desiredSteeringForce, _steerStrenght) / 1; //корень в ClampMagnitude
+        Vector3 acceleration = Vector3.ClampMagnitude(desiredSteeringForce, _steerStrenght) / 1; //корень в ClampFloat3
 
         _velocity = Vector3.ClampMagnitude(_velocity + acceleration * Time.deltaTime, _maxSpeed);
         _position += _velocity * Time.deltaTime;

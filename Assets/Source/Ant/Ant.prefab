@@ -4901,8 +4901,7 @@ GameObject:
   m_Component:
   - component: {fileID: 17713550492425373}
   - component: {fileID: 1914862180}
-  - component: {fileID: 8832331769820361155}
-  - component: {fileID: -3636279376074017145}
+  - component: {fileID: -520923943894814771}
   m_Layer: 0
   m_Name: Ant
   m_TagString: Untagged
@@ -4936,7 +4935,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825635160211818023}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 456867efb665db146a713b06ba4cc1d5, type: 3}
   m_Name: 
@@ -4945,42 +4944,33 @@ MonoBehaviour:
   _steerStrenght: 2
   _wanderStrenght: 0.3
   _jawsTransform: {fileID: 346237589090722615}
---- !u!111 &8832331769820361155
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 825635160211818023}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: cf098f5e23a251d439fbfcc91b10ae9e, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: cf098f5e23a251d439fbfcc91b10ae9e, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!95 &-3636279376074017145
-Animator:
-  serializedVersion: 5
+--- !u!114 &-520923943894814771
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825635160211818023}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 2fc05d1c7b943a644a1e36ddd7791d39, type: 3}
-  m_Controller: {fileID: 9100000, guid: a66794f37eb74b6458254b44cb60fa5f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75be015e096c414d9143ca0a340b829, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Position:
+    x: 0
+    y: 0
+    z: 0
+  Velocity:
+    x: 0
+    y: 0
+    z: 0
+  SteerStrenght: 2
+  MaxSpeed: 2
+  DesiredDirection:
+    x: 0
+    y: 0
+    z: 0
+  WanderStrenght: 0.3
 --- !u!1 &914468902203600972
 GameObject:
   m_ObjectHideFlags: 0
