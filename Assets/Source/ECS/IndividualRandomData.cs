@@ -1,7 +1,10 @@
 using Unity.Entities;
 using Unity.Mathematics;
 
-public struct IndividualRandomData : IComponentData
+namespace ECS_Ants
 {
-    public Random Value;
+    public struct IndividualRandomData : IComponentData
+    {
+        public Random Value;
+    }
 }

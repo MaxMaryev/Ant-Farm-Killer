@@ -1,10 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using ECS_Ants;
 
 public class PheromoneGenerator : MonoBehaviour
 {
-    [SerializeField] private Pheromone _wanderPheromone;
-    [SerializeField] private Pheromone _foodPheromone;
+    [SerializeField] private PheromoneData _wanderPheromone;
+    [SerializeField] private PheromoneData _foodPheromone;
     [SerializeField] private AntCreator _antCreator;
 
     private void Start()

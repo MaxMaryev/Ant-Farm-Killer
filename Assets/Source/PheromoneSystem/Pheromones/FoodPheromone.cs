@@ -1,3 +1,3 @@
-public class FoodPheromone : Pheromone
+public class FoodPheromone : PheromoneData
 {
 }

@@ -3,32 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AntCreator : MonoBehaviour
+namespace ECS_Ants
 {
-    [SerializeField] private int _count;
-    [SerializeField] private Ant _antPrefab;
-    [SerializeField] private Transform _nest;
-
-    private List<Ant> _ants = new List<Ant>();
-
-    public IReadOnlyList<Ant> Ants => _ants;
-
-    private void Start()
+    public class AntCreator : MonoBehaviour
     {
-        StartCoroutine(Create());
-    }
+        [SerializeField] private int _count;
+        [SerializeField] private Ant _antPrefab;
+        [SerializeField] private Transform _nest;
 
-    private IEnumerator Create()
-    {
-        WaitForSeconds wait = new WaitForSeconds(0.1f);
+        private List<Ant> _ants = new List<Ant>();
 
-        for (int i = 0; i < _count; i++)
+        public IReadOnlyList<Ant> Ants => _ants;
+
+        private void Start()
         {
-            Vector3 randomInsideUnitCircle = UnityEngine.Random.insideUnitCircle;
-            Vector3 randomDirection = new Vector3(randomInsideUnitCircle.x, 0, randomInsideUnitCircle.y);
-            Ant ant = Instantiate(_antPrefab, _nest.transform.position, Quaternion.Euler(randomDirection)/*, _nest*/);
-            _ants.Add(ant);
-            yield return wait;
+            StartCoroutine(Create());
+        }
+
+        private IEnumerator Create()
+        {
+            WaitForSeconds wait = new WaitForSeconds(0.1f);
+
+            for (int i = 0; i < _count; i++)
+            {
+                Vector3 randomInsideUnitCircle = UnityEngine.Random.insideUnitCircle;
+                Vector3 randomDirection = new Vector3(randomInsideUnitCircle.x, 0, randomInsideUnitCircle.y);
+                Ant ant = Instantiate(_antPrefab, _nest.transform.position, Quaternion.Euler(randomDirection)/*, _nest*/);
+                _ants.Add(ant);
+                yield return wait;
+            }
         }
     }
 }

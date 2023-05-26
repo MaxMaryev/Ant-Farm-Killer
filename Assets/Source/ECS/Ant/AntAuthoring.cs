@@ -4,27 +4,30 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class AntAuthoring : MonoBehaviour
+namespace ECS_Ants
 {
-    public float3 Position;
-    public float3 Velocity;
-    public float SteerStrenght;
-    public float MaxSpeed;
-    public float3 DesiredDirection;
-    public float WanderStrenght;
-}
-
-public class AntBaker : Baker<AntAuthoring>
-{
-    public override void Bake(AntAuthoring authoring)
+    public class AntAuthoring : MonoBehaviour
     {
-        AddComponent(new MoveComponent 
-        {
-            SteerStrenght = authoring.SteerStrenght,
-            WanderStrenght = authoring.WanderStrenght,
-            MaxSpeed = authoring.MaxSpeed
-        });
+        public float3 Position;
+        public float3 Velocity;
+        public float SteerStrenght;
+        public float MaxSpeed;
+        public float3 DesiredDirection;
+        public float WanderStrenght;
+    }
 
-        AddComponent<IndividualRandomData>();
+    public class AntBaker : Baker<AntAuthoring>
+    {
+        public override void Bake(AntAuthoring authoring)
+        {
+            AddComponent(new MoveComponent
+            {
+                SteerStrenght = authoring.SteerStrenght,
+                WanderStrenght = authoring.WanderStrenght,
+                MaxSpeed = authoring.MaxSpeed
+            });
+
+            AddComponent<IndividualRandomData>();
+        }
     }
 }

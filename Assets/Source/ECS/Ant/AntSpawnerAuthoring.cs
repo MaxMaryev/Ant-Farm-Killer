@@ -1,24 +1,27 @@
 using Unity.Entities;
 using UnityEngine;
 
-public class AntSpawnerAuthoring : MonoBehaviour
+namespace ECS_Ants
 {
-    public GameObject AntPrefab;
-    public float SpawnRate;
-}
-
-public class AntSpawnerBaker : Baker<AntSpawnerAuthoring>
-{
-    public override void Bake(AntSpawnerAuthoring authoring)
+    public class AntSpawnerAuthoring : MonoBehaviour
     {
-        var entity = GetEntity(TransformUsageFlags.None);
+        public GameObject AntPrefab;
+        public float SpawnRate;
+    }
 
-        AddComponent(new AntSpawner
+    public class AntSpawnerBaker : Baker<AntSpawnerAuthoring>
+    {
+        public override void Bake(AntSpawnerAuthoring authoring)
         {
-            AntPrefab = GetEntity(authoring.AntPrefab, TransformUsageFlags.Dynamic),
-            SpawnPosition = authoring.transform.position,
-            NextSpawnTime = 0f,
-            SpawnRate = authoring.SpawnRate
-        });
+            var entity = GetEntity(TransformUsageFlags.None);
+
+            AddComponent(new AntSpawner
+            {
+                AntPrefab = GetEntity(authoring.AntPrefab, TransformUsageFlags.Dynamic),
+                SpawnPosition = authoring.transform.position,
+                NextSpawnTime = 0f,
+                SpawnRate = authoring.SpawnRate
+            });
+        }
     }
 }

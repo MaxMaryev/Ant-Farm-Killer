@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Pheromone : MonoBehaviour
+public class PheromoneData : MonoBehaviour
 {
     [SerializeField] private int _lifeTime;
 

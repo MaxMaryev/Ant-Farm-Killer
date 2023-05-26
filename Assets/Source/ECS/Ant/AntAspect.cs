@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 
-public partial class AntAspect : IAspect
+namespace ECS_Ants
 {
+    public partial class AntAspect : IAspect
+    {
 
+    }
 }

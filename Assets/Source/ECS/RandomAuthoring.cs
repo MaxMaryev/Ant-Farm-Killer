@@ -1,19 +1,21 @@
 using Unity.Entities;
 using UnityEngine;
-using static UnityEngine.UI.CanvasScaler;
 
-public class RandomAuthoring : MonoBehaviour
+namespace ECS_Ants
 {
-    public uint Seed;
-}
-
-public class RandomBaker : Baker<RandomAuthoring>
-{
-    public override void Bake(RandomAuthoring authoring)
+    public class RandomAuthoring : MonoBehaviour
     {
-        AddComponent(new IndividualRandomData
+        public uint Seed;
+    }
+
+    public class RandomBaker : Baker<RandomAuthoring>
+    {
+        public override void Bake(RandomAuthoring authoring)
         {
-            Value = Unity.Mathematics.Random.CreateFromIndex(authoring.Seed)
-        });
+            AddComponent(new IndividualRandomData
+            {
+                Value = Unity.Mathematics.Random.CreateFromIndex(authoring.Seed)
+            });
+        }
     }
 }

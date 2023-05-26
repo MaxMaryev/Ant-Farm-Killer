@@ -1,4 +1,4 @@
-public class WanderPheromone : Pheromone
+public class WanderPheromone : PheromoneData
 {
 
 }
