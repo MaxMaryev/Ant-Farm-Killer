@@ -3,6 +3,7 @@ using Unity.Burst;
 using Unity.Mathematics;
 using Unity.Transforms;
 using System.Linq;
+using UnityEngine;
 
 namespace ECS_Ants
 {
@@ -25,7 +26,9 @@ namespace ECS_Ants
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            foreach (var (transform, randomData, moveData) in SystemAPI.Query<RefRW<LocalTransform>, RefRW<IndividualRandomData>, RefRW<MoveComponent>>())
+            var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
+
+            foreach (var (transform, randomData, moveData) in SystemAPI.Query<RefRW<LocalTransform>, RefRW<IndividualRandomData>, RefRW<MoveData>>())
             {
                 _randomDirection = randomData.ValueRW.Value.NextFloat3Direction();
                 _randomDirection.y = 0;
@@ -42,6 +45,22 @@ namespace ECS_Ants
                 transform.ValueRW.Position = moveData.ValueRO.Position;
                 transform.ValueRW.Rotation = quaternion.EulerZYX(0, _angle, 0);
             }
+
+            //new MoveJob
+            //{
+            //    ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter()
+            //}.ScheduleParallel();
+        }
+    }
+
+    [BurstCompile]
+    public partial struct MoveJob : IJobEntity
+    {
+        public EntityCommandBuffer.ParallelWriter ECB;
+
+        public void Execute()
+        {
+
         }
     }
 }

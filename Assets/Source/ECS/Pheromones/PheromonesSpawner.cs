@@ -1,6 +1,6 @@
 using Unity.Entities;
 
-public struct PheromonesSpawnData : IComponentData
+public struct PheromonesSpawner : IComponentData
 {
     public Entity EntityPrefab;
     public float SpawnRate;

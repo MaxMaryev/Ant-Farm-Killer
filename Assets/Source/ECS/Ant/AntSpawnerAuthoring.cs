@@ -15,7 +15,7 @@ namespace ECS_Ants
         {
             var entity = GetEntity(TransformUsageFlags.None);
 
-            AddComponent(new AntSpawner
+            AddComponent(entity, new AntSpawner
             {
                 AntPrefab = GetEntity(authoring.AntPrefab, TransformUsageFlags.Dynamic),
                 SpawnPosition = authoring.transform.position,

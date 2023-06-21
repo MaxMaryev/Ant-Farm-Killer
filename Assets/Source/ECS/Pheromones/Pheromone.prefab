@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 8081674524476508176}
   - component: {fileID: 5337345877206330955}
   - component: {fileID: 6060133850237306310}
-  - component: {fileID: 7819943811101833997}
-  m_Layer: 0
+  - component: {fileID: 4494619909956462190}
+  m_Layer: 15
   m_Name: Pheromone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8081674524476508176
 Transform:
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7819943811101833997
+--- !u!65 &4494619909956462190
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,7 +100,7 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}

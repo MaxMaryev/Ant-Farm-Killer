@@ -12,7 +12,9 @@ namespace ECS_Ants
     {
         public override void Bake(RandomAuthoring authoring)
         {
-            AddComponent(new IndividualRandomData
+            var entity = GetEntity(TransformUsageFlags.None);
+
+            AddComponent(entity, new IndividualRandomData
             {
                 Value = Unity.Mathematics.Random.CreateFromIndex(authoring.Seed)
             });

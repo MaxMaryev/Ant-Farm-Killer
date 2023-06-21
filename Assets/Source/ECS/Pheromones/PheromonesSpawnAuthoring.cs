@@ -13,7 +13,9 @@ namespace ECS_Ants
     {
         public override void Bake(PheromonesSpawnAuthoring authoring)
         {
-            AddComponent(new PheromonesSpawnData
+            var entity = GetEntity(TransformUsageFlags.None);
+
+            AddComponent(entity, new PheromonesSpawner
             {
                 EntityPrefab = GetEntity(authoring.PheromonePrefab, TransformUsageFlags.None),
                 SpawnRate = authoring.SpawnRate

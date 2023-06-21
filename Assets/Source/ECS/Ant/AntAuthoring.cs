@@ -20,14 +20,17 @@ namespace ECS_Ants
     {
         public override void Bake(AntAuthoring authoring)
         {
-            AddComponent(new MoveComponent
+            var entity = GetEntity(TransformUsageFlags.None);
+
+            AddComponent(entity, new MoveData
             {
                 SteerStrenght = authoring.SteerStrenght,
                 WanderStrenght = authoring.WanderStrenght,
                 MaxSpeed = authoring.MaxSpeed
             });
 
-            AddComponent<IndividualRandomData>();
+            AddComponent<IndividualRandomData>(entity);
+            AddComponent<AntSensors>(entity);
         }
     }
 }
