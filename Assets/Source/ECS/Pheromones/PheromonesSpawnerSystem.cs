@@ -1,7 +1,6 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace ECS_Ants
 {
@@ -30,6 +29,7 @@ namespace ECS_Ants
             }.ScheduleParallel();
         }
 
+        [BurstCompile]
         public partial struct PheromoneSpawnJob : IJobEntity
         {
             public EntityCommandBuffer.ParallelWriter ECB;

@@ -2,21 +2,12 @@ using Unity.Entities;
 using Unity.Burst;
 using Unity.Mathematics;
 using Unity.Transforms;
-using System.Linq;
-using UnityEngine;
 
 namespace ECS_Ants
 {
     [BurstCompile]
     public partial struct MoveSystem : ISystem
     {
-        private float3 _randomDirection;
-        private float3 _desiredVelocity;
-        private float3 _desiredSteeringForce;
-        private float3 _acceleration;
-        private float3 _velocityWithoutClamp;
-        private float _angle;
-
         [BurstCompile]
         public void OnCreate(ref SystemState state) { }
 
@@ -26,41 +17,69 @@ namespace ECS_Ants
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
-
-            foreach (var (transform, randomData, moveData) in SystemAPI.Query<RefRW<LocalTransform>, RefRW<IndividualRandomData>, RefRW<MoveData>>())
+            new MoveJob
             {
-                _randomDirection = randomData.ValueRW.Value.NextFloat3Direction();
-                _randomDirection.y = 0;
-                moveData.ValueRW.DesiredDirection = math.normalize((moveData.ValueRO.DesiredDirection + _randomDirection * moveData.ValueRO.WanderStrenght/* + _pheromoneSensors.GetDesiredDirection()*/));
-                _desiredVelocity = moveData.ValueRO.DesiredDirection * moveData.ValueRO.MaxSpeed;
-                _desiredSteeringForce = (_desiredVelocity - moveData.ValueRW.Velocity) * moveData.ValueRO.SteerStrenght;
-                _acceleration = MathUtils.ClampFloat3(_desiredSteeringForce, moveData.ValueRO.SteerStrenght);
-
-                _velocityWithoutClamp = moveData.ValueRO.Velocity + _acceleration * SystemAPI.Time.DeltaTime;
-                moveData.ValueRW.Velocity = MathUtils.ClampFloat3(_velocityWithoutClamp, moveData.ValueRO.MaxSpeed);
-                moveData.ValueRW.Position += moveData.ValueRO.Velocity * SystemAPI.Time.DeltaTime;
-
-                _angle = math.atan2(moveData.ValueRO.Velocity.x, moveData.ValueRO.Velocity.z);
-                transform.ValueRW.Position = moveData.ValueRO.Position;
-                transform.ValueRW.Rotation = quaternion.EulerZYX(0, _angle, 0);
-            }
-
-            //new MoveJob
-            //{
-            //    ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter()
-            //}.ScheduleParallel();
+                DeltaTime = SystemAPI.Time.DeltaTime,
+                MapSizeX = 22,
+                MapSizeZ = 22
+            }.ScheduleParallel();
         }
     }
 
     [BurstCompile]
     public partial struct MoveJob : IJobEntity
     {
-        public EntityCommandBuffer.ParallelWriter ECB;
+        public float DeltaTime;
+        public float MapSizeX;
+        public float MapSizeZ;
 
-        public void Execute()
+        [BurstCompile]
+        public void Execute(RefRW<LocalTransform> transform, RefRW<IndividualRandomData> randomData, RefRW<MoveData> moveData, RefRO<AntSensors> antSensors)
         {
+            {
+                if (transform.ValueRO.Position.x > MapSizeX || transform.ValueRO.Position.x < -MapSizeX ||
+                    transform.ValueRO.Position.z > MapSizeZ || transform.ValueRO.Position.z < -MapSizeZ)
+                {
+                    moveData.ValueRW.Velocity = -moveData.ValueRW.Velocity;
+                }
 
+                float wanderStrength = moveData.ValueRO.WanderStrenght;
+                float steerStrength = moveData.ValueRO.SteerStrenght;
+                float maxSpeed = moveData.ValueRO.MaxSpeed;
+                float3 randomDirection = randomData.ValueRW.Value.NextFloat3Direction();
+                randomDirection.y = 0;
+
+                moveData.ValueRW.DesiredDirection = math.normalize(moveData.ValueRO.DesiredDirection + 
+                    randomDirection * wanderStrength + transform.ValueRO.TransformDirection(GetPheromoneDirection(antSensors)));
+
+                float3 desiredVelocity = moveData.ValueRO.DesiredDirection * maxSpeed;
+                float3 desiredSteeringForce = (desiredVelocity - moveData.ValueRW.Velocity) * steerStrength;
+                float3 acceleration = MathUtils.ClampFloat3(desiredSteeringForce, steerStrength);
+
+                moveData.ValueRW.Velocity += acceleration * DeltaTime;
+                moveData.ValueRW.Velocity = MathUtils.ClampFloat3(moveData.ValueRW.Velocity, maxSpeed);
+                moveData.ValueRW.Position += moveData.ValueRW.Velocity * DeltaTime;
+
+                float3 velocityWithoutY = moveData.ValueRW.Velocity;
+                velocityWithoutY.y = 0;
+                float3 forwardDir = math.normalize(velocityWithoutY);
+
+                transform.ValueRW.Position = moveData.ValueRO.Position;
+                transform.ValueRW.Rotation = quaternion.LookRotationSafe(forwardDir, math.up());
+            }
+        }
+
+        [BurstCompile]
+        private float3 GetPheromoneDirection(RefRO<AntSensors> antSensors)
+        {
+            if (antSensors.ValueRO.CentralSensorValue > math.max(antSensors.ValueRO.LeftSensorValue, antSensors.ValueRO.RightSensorValue))
+                return math.forward();
+            else if (antSensors.ValueRO.LeftSensorValue > antSensors.ValueRO.RightSensorValue)
+                return math.left();
+            else if (antSensors.ValueRO.RightSensorValue > antSensors.ValueRO.LeftSensorValue)
+                return math.right();
+            else
+                return float3.zero;
         }
     }
 }
